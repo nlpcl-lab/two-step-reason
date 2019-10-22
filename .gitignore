@@ -1,0 +1,11 @@
+# InteliJ IDEA
+*.iml
+.idea/
+
+# Python
+*.pyc
+*.mo
+/venv/
+
+*.bin
+*.zip
