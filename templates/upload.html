@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+{% include 'base/head.html' %}
+<style>
+</style>
+<body>
+{% include 'base/mturk_navbar.html' %}
+<div class="container" style="max-width: 1000px; padding-top: 30px;">
+    <h3>Amazon Mechanical Turk (v3)</h3>
+    <form style="margin-top: 25px; margin-bottom: 30px;">
+        <div class="form-group row">
+            <label for="turker_id" class="col-sm-2 col-form-label">Turker ID</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="turker_id" value="{{g.user.turker_id}}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="source_url" class="col-sm-2 col-form-label">Source URL</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="source_url" value="">
+            </div>
+        </div>
+    </form>
+    <div class="form-group">
+        <label for="text">Paste the given text.</label>
+        <textarea class="form-control" id="text" rows="15"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary btn-block" id="next-btn">Next</button>
+    <h3 style="margin-top: 40px;">History</h3>
+    <div id="history" style="margin-bottom: 100px;">
+        <div>[2018-12-13] In recent years, South Korea’s door-to-door.. (edit) (delete)</div>
+    </div>
+</div>
+{% include 'base/script.html' %}
+
+<script type='text/template' id='history-template'>
+    <div>[<%date%>] <%text%> <a href="/mturk/doc/<%doc_id%>/v3">(edit)</a> <a href="#" onClick="delete_key('<%key%>')">(delete)</a>
+    </div>
+</script>
+
+<script>
+  var doc_type = 'mturk_v3';
+
+  function delete_key(key) {
+    localStorage.removeItem(key);
+    load_history();
+  }
+
+  function load_history() {
+    var history_el = $('#history');
+    var is_empty = true;
+    history_el.html('');
+    for (var key in localStorage) {
+      if (key.indexOf(doc_type + '_') === 0) {
+        is_empty = false;
+        var value = JSON.parse(localStorage[key]);
+        var new_div = $('#history-template').html();
+        new_div = new_div.replace('<%date%>', moment(value.created_at).format('YYYY-MM-DD HH:mm'));
+        new_div = new_div.replace('<%text%>', value.sents[0].text.substr(0, 55) + '...');
+        new_div = new_div.replace('<%doc_id%>', value.doc_id);
+        new_div = new_div.replace('<%key%>', doc_type + '_' + value.doc_id);
+        console.log('new_div :', new_div);
+        history_el.append(new_div);
+      }
+    }
+    if (is_empty) {
+      history_el.html('No history');
+    }
+  }
+
+  $(document).ready(function () {
+    load_history();
+  });
+
+  $('#next-btn').click(function () {
+    var text = $('#text').val().trim();
+    var turker_id = $('#turker_id').val().trim();
+    var source_url = $('#source_url').val().trim();
+
+    if (!turker_id) {
+      swal({
+        title: '',
+        text: 'Please enter the Turker ID.',
+        type: 'error',
+      });
+      return;
+    }
+    if (!text) {
+      swal({
+        title: '',
+        text: 'Please enter text.',
+        type: 'error',
+      });
+      return;
+    }
+    if (!source_url) {
+      swal({
+        title: '',
+        text: 'Please enter the Source URL.',
+        type: 'error',
+      });
+      return;
+    }
+
+    $(this).hide();
+    $.ajax({
+      url: '/api/mturk/upload',
+      contentType: 'application/json',
+      type: 'POST',
+      data: JSON.stringify({
+        text: text,
+        doc_type: doc_type,
+        turker_id: $('#turker_id').val(),
+        source_url: $('#source_url').val(),
+      }),
+    }).done(function (data) {
+      var doc = JSON.parse(data);
+      localStorage.setItem(doc_type + '_' + doc.doc_id, data);
+      location.assign('/mturk/doc/' + doc.doc_id + '/v3');
+    }).fail(function () {
+      $(this).show();
+      swal({
+        title: '',
+        text: 'Error occurred. Please contact the administrator.',
+        type: 'error',
+      });
+    })
+  })
+</script>
+</body>
+</html>

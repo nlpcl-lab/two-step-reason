@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+{% include 'base/head.html' %}
+<style>
+    html, body {
+        margin-top: 0;
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+<body>
+<div class="container text-center">
+    <img class="mb-4" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="" height="72">
+    <h4>Permission denied</h4>
+    <div style="padding: 15px 0;">
+        <h5> → <a href="/login">Login Retry</a></h5>
+    </div>
+    <h5> → <a href="/mturk/rapid-annotation/v2">Amazon Mechanical Turk</a></h5>
+</div>
+
+{% include 'base/script.html' %}
+<script>
+</script>
+</body>
+</html>

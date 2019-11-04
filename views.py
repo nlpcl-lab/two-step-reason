@@ -6,36 +6,6 @@ from bson import json_util
 from models import Doc, User, Sent, Annotation, DocLog
 from decorator import is_user, is_active_user, is_admin
 import config
-from tqdm import tqdm
-
-
-@is_active_user
-def index_page():
-    item_per_page = 50
-    page = request.args.get('p', 1)
-    page = int(page)
-
-    total = Doc.objects.filter(type='v1').count()
-    total_page = math.ceil(total / item_per_page)
-    paginator = Pagination(Doc.objects(type='v1').order_by('seq'), page, 50)
-    docs = paginator.items
-
-    docs_data = []
-    for doc in docs:
-        item = doc.dump()
-        item['sent_total'] = Sent.objects(doc=doc).count()
-        item['progress'] = Annotation.objects(doc=doc, user=g.user, type='sentence').count()
-
-        docs_data.append(item)
-
-    pagination = {
-        'page': page,
-        'total_page': total_page,
-        'left': max(1, page - 5),
-        'right': min(page + 5, total_page),
-    }
-
-    return render_template('index.html', type='v1', docs=docs_data, g=g, pagination=pagination)
 
 
 def login_page():
@@ -71,22 +41,6 @@ def auto_signup_page():
 def logout_page():
     if 'username' in session: del session['username']
     return redirect('/login')
-
-
-@is_active_user
-def doc_page(doc_id):
-    try:
-        doc = Doc.objects.get(seq=doc_id)
-    except Exception as e:
-        return redirect('/404')
-
-    doc_log = DocLog(user=g.user, doc=doc, ip=request.remote_addr)
-    doc_log.save()
-
-    if doc.type == 'v3':
-        return render_template('doc_v3.html', doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
-
-    return render_template('doc.html', doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
 
 
 @is_active_user
@@ -231,13 +185,21 @@ def post_signup():
 
 
 @is_user
-def mturk_upload_page():
-    return render_template('mturk/upload.html', g=g)
+def upload_page(doc_type):
+    return render_template('upload.html'.format(doc_type), g=g)
 
 
 @is_user
-def mturk_upload_page_v2(doc_type):
-    return render_template('mturk/{}/upload.html'.format(doc_type), g=g)
+def doc_page(doc_id, doc_type):
+    try:
+        doc = Doc.objects.get(id=doc_id)
+    except Exception as e:
+        return redirect('/404')
+
+    doc_log = DocLog(doc=doc, ip=request.remote_addr)
+    doc_log.save()
+
+    return render_template('doc.html'.format(doc_type), doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
 
 
 @is_user
@@ -272,29 +234,3 @@ def post_mturk_upload():
         res['sents'].append(sent.dump())
 
     return json.dumps(res)
-
-
-@is_user
-def mturk_doc_page(doc_id):
-    try:
-        doc = Doc.objects.get(id=doc_id)
-    except Exception as e:
-        return redirect('/404')
-
-    doc_log = DocLog(doc=doc, ip=request.remote_addr)
-    doc_log.save()
-
-    return render_template('mturk/doc.html', doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
-
-
-@is_user
-def mturk_doc_page_v2(doc_id, doc_type):
-    try:
-        doc = Doc.objects.get(id=doc_id)
-    except Exception as e:
-        return redirect('/404')
-
-    doc_log = DocLog(doc=doc, ip=request.remote_addr)
-    doc_log.save()
-
-    return render_template('mturk/{}/doc.html'.format(doc_type), doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)

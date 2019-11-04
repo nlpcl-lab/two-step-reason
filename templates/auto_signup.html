@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+{% include 'base/head.html' %}
+<style>
+    html, body {
+        margin-top: 0;
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .form-signup {
+        width: 100%;
+        max-width: 450px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .form-signup .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form-signup .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signup input {
+        margin-bottom: -1px;
+        border-radius: 0;
+    }
+
+    #username {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    #first_name {
+        width: 50%;
+        margin: 0 -2px 10px -2px;
+        display: inline-block;
+        border-right: none;
+        border-bottom-left-radius: 5px;
+    }
+
+    #last_name {
+        width: 50%;
+        margin: 0 -2px 10px -2px;
+        display: inline-block;
+        border-bottom-right-radius: 5px;
+    }
+</style>
+<body>
+<div class="container text-center">
+    <form class="form-signup">
+        <img class="mb-4" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="" height="72">
+
+        <div class="input-group" style="margin-bottom: -1px;">
+            <div class="input-group-prepend">
+                <div class="input-group-text" style="width: 50px; border-radius: 0;">ID</div>
+            </div>
+            <input style="border-radius: 0;" type="text" id="username" class="form-control" placeholder="Username" value="{{username}}"
+                   readonly>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text" style="width: 50px; border-radius: 0;">PW</div>
+            </div>
+            <input style="border-radius: 0;" type="text" id="password"
+                   class="form-control" placeholder="Password" value="{{password}}" readonly>
+        </div>
+        <p style="font-size: 14px; text-align: left; margin-top: 20px;">
+            It is an ID/PW that we provide, in order not to gather your personal information. We will use it as an
+            identifier to check the result of the work when there is an issue to handle. If you lose this ID, the issue
+            handling process will be very complex. Therefore, we ask you to please keep the ID/PW until we successfully
+            pay you for your work.
+        </p>
+        <p class="mt-5 mb-3 text-muted"><a href="/login?callback={{callback}}">Go to Login</a> <br/>&copy; NLPCL 2019
+        </p>
+    </form>
+</div>
+
+{% include 'base/script.html' %}
+<script>
+  $('form').submit(function (event) {
+    event.preventDefault();
+
+    let password = $('#password').val();
+    let re_password = $('#re_password').val();
+
+    if (password !== re_password) {
+      swal({
+        title: '',
+        text: 'Password and password confirmation do not match.',
+        type: 'error',
+      });
+      return;
+    }
+
+    $.ajax({
+      url: '/api/signup',
+      contentType: 'application/json',
+      type: 'POST',
+      data: JSON.stringify({
+        username: $('#username').val(),
+        password: password,
+        first_name: $('#first_name').val(),
+        last_name: $('#last_name').val(),
+      }),
+    }).done(function () {
+      location.assign('{{callback}}')
+    }).fail(function () {
+      swal({
+        title: '',
+        text: 'The username already exists.',
+        type: 'error',
+      });
+    });
+  });
+</script>
+</body>
+</html>
