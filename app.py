@@ -32,7 +32,6 @@ def before_request():
 app.add_url_rule('/', view_func=views.upload_page, methods=['GET'])
 app.add_url_rule('/doc/<doc_id>', view_func=views.doc_page, methods=['GET'])
 
-
 app.add_url_rule('/403', view_func=views.page_403, methods=['GET'])
 app.add_url_rule('/404', view_func=views.page_404, methods=['GET'])
 app.add_url_rule('/login', view_func=views.login_page, methods=['GET'])
@@ -47,7 +46,6 @@ app.add_url_rule('/api/doc/<doc_id>/annotation', view_func=views.get_annotation,
 app.add_url_rule('/api/annotation', view_func=views.post_annotation, methods=['POST'])
 app.add_url_rule('/api/annotation/<annotation_id>', view_func=views.delete_annotation, methods=['DELETE'])
 app.add_url_rule('/api/annotation/<annotation_id>', view_func=views.put_annotation, methods=['PUT'])
-
 app.add_url_rule('/api/mturk/upload', view_func=views.post_mturk_upload, methods=['POST'])
 
 if __name__ == '__main__':

@@ -1,11 +1,19 @@
-import json, math, datetime, os
+from functools import wraps
+import json, datetime, os
 from flask import request, render_template, Response, g, session, redirect, send_file
-from flask_mongoengine import Pagination
-from bson import json_util
 
 from models import Doc, User, Sent, Annotation, DocLog
-from decorator import is_user, is_active_user, is_admin
 import config
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect('/login?callback={}'.format(request.path))
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 
 def login_page():
@@ -43,21 +51,7 @@ def logout_page():
     return redirect('/login')
 
 
-@is_active_user
-def get_doc(doc_id):
-    doc = Doc.objects.get(id=doc_id)
-    sents = Sent.objects(doc=doc).order_by('index')
-
-    sents_data = []
-    for sent in sents:
-        sents_data.append(sent.dump())
-
-    return json.dumps({
-        'sents': sents_data,
-    })
-
-
-@is_user
+@login_required
 def post_annotation():
     data = request.get_json()
 
@@ -100,7 +94,7 @@ def post_annotation():
     })
 
 
-@is_user
+@login_required
 def get_annotation(doc_id):
     try:
         doc = Doc.objects().get(id=doc_id)
@@ -116,7 +110,7 @@ def get_annotation(doc_id):
     })
 
 
-@is_user
+@login_required
 def delete_annotation(annotation_id):
     try:
         annotation = Annotation.objects().get(id=annotation_id)
@@ -129,7 +123,7 @@ def delete_annotation(annotation_id):
     return Response('success', status=200)
 
 
-@is_user
+@login_required
 def put_annotation(annotation_id):
     data = request.get_json()
     basket = data['basket']
@@ -184,12 +178,12 @@ def post_signup():
     return Response('success', status=200)
 
 
-@is_user
+@login_required
 def upload_page(doc_type):
     return render_template('upload.html'.format(doc_type), g=g)
 
 
-@is_user
+@login_required
 def doc_page(doc_id, doc_type):
     try:
         doc = Doc.objects.get(id=doc_id)
@@ -202,7 +196,7 @@ def doc_page(doc_id, doc_type):
     return render_template('doc.html'.format(doc_type), doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
 
 
-@is_user
+@login_required
 def post_mturk_upload():
     data = request.get_json()
     text = data['text']
