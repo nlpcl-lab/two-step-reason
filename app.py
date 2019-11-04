@@ -30,12 +30,9 @@ def before_request():
 
 
 app.add_url_rule('/', view_func=views.index_page, methods=['GET'])
-app.add_url_rule('/<doc_type>', view_func=views.index_v2_page, methods=['GET'])
 app.add_url_rule('/403', view_func=views.page_403, methods=['GET'])
 app.add_url_rule('/404', view_func=views.page_404, methods=['GET'])
-app.add_url_rule('/users', view_func=views.users_page, methods=['GET'])
 app.add_url_rule('/login', view_func=views.login_page, methods=['GET'])
-app.add_url_rule('/signup', view_func=views.signup_page, methods=['GET'])
 app.add_url_rule('/auto_signup', view_func=views.auto_signup_page, methods=['GET'])
 app.add_url_rule('/logout', view_func=views.logout_page, methods=['GET'])
 app.add_url_rule('/doc/<doc_id>', view_func=views.doc_page, methods=['GET'])
@@ -44,14 +41,10 @@ app.add_url_rule('/doc/<doc_id>', view_func=views.doc_page, methods=['GET'])
 app.add_url_rule('/api/login', view_func=views.post_login, methods=['POST'])
 app.add_url_rule('/api/signup', view_func=views.post_signup, methods=['POST'])
 app.add_url_rule('/api/user/<user_id>/active', view_func=views.put_user_active, methods=['PUT'])
-# app.add_url_rule('/api/doc/<doc_id>', view_func=views.get_doc, methods=['GET'])
 app.add_url_rule('/api/doc/<doc_id>/annotation', view_func=views.get_annotation, methods=['GET'])
 app.add_url_rule('/api/annotation', view_func=views.post_annotation, methods=['POST'])
 app.add_url_rule('/api/annotation/<annotation_id>', view_func=views.delete_annotation, methods=['DELETE'])
 app.add_url_rule('/api/annotation/<annotation_id>', view_func=views.put_annotation, methods=['PUT'])
-
-# for admin
-app.add_url_rule('/download/AMT_v3', view_func=views.download_dataset_AMT_v3, methods=['GET'])
 
 # for mturk
 app.add_url_rule('/mturk/rapid-annotation', view_func=views.mturk_upload_page, methods=['GET'])

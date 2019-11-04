@@ -1,0 +1,144 @@
+body {
+    margin-bottom: 500px;
+}
+
+.container {
+    padding: 1px;
+}
+
+.header {
+    margin: 10px 0 20px 0;
+    color: #495057;
+}
+
+#tbody td {
+    padding: 20px 0;
+    word-break: break-all;
+}
+
+#tbody td:nth-child(1) {
+    width: 90px;
+}
+
+.modal-annotation .modal {
+    width: 850px;
+    min-height: 850px;
+    max-width: 850px;
+    position: absolute;
+}
+
+.modal-annotation .modal .modal-content {
+    width: 850px;
+    min-width: 850px;
+}
+
+.modal-annotation .modal-dialog {
+    margin: 0;
+}
+
+.modal-body .input-group {
+    margin-left: 0;
+}
+
+.modal-body .input-group-text {
+    border: none;
+    background-color: white;
+}
+
+.modal-body .custom-select {
+    border: none;
+}
+
+.modal-body .attribute-input-group {
+    border-bottom: 1px dashed #CCC;
+}
+
+.memo-reason {
+    border: 1px solid #EEE;
+    font-size: 14px;
+    height: 31px;
+}
+
+.memo-reason::placeholder {
+    color: #adb5bd;
+}
+
+.modal-body .input-group.no-border {
+    border-bottom: none;
+}
+
+.dropdown {
+    flex: 1 1 auto;
+}
+
+.dropdown .dropdown-menu {
+    width: 100%;
+}
+
+#modal .dropdown-toggle::after {
+    position: absolute;
+    right: 6px;
+    top: 18px;
+}
+
+.dropdown .dropdown-toggle {
+    margin-top: 2px;
+    color: #495057;
+    font-size: inherit;
+    width: 100%;
+    text-align: left;
+    box-shadow: none;
+}
+
+.dropdown-menu .dropdown-item.active {
+    color: white;
+}
+
+.dropdown-menu .dropdown-item.active:hover {
+    color: white;
+}
+
+.input-group-text.active {
+    font-weight: bold;
+}
+
+.annotation-badge {
+    cursor: pointer;
+}
+
+.badge {
+    font-weight: 400;
+    font-size: 80%;
+}
+
+.fa-chevron-left {
+    cursor: pointer;
+    margin-right: 10px;
+    color: #CCC;
+}
+
+.fa-chevron-right {
+    cursor: pointer;
+    margin-left: 10px;
+    color: #CCC;
+}
+
+.tooltip.show {
+    opacity: 1;
+}
+
+.tooltip-inner {
+    max-width: 1000px;
+    text-align: left;
+    background-color: white;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 15px 20px;
+    line-height: 25px;
+    color: #343a40;
+}
+
+.toast-success {
+    width: 145px !important;
+    font-size: 15px;
+}
