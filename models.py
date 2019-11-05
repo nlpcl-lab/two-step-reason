@@ -13,7 +13,7 @@ class Doc(db.Document):
     source = db.StringField(default='')
     seq = db.IntField(default=0)
     created_at = db.DateTimeField(default=datetime.datetime.now)
-    type = db.StringField(default='v3')
+    type = db.StringField(default='v1')
 
     meta = {
         'indexes': [
@@ -63,7 +63,7 @@ class User(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now)
     accessed_at = db.DateTimeField(default=datetime.datetime.now)
 
-    turker_id = db.StringField(default='')
+    worker_id = db.StringField(default='')
 
     def set_password(self, password):
         self.salt = uuid.uuid4().hex

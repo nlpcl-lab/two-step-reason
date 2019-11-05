@@ -21,10 +21,15 @@ The annotation guideline, acquired data, and code to reproduce the experimental 
 When you use this tool, please cite our paper:
 
 ```bibtex
-@inproceedings{yang-2019-Nonsense,
+@inproceedings{yang-etal-2019-nonsense,
     title = "Nonsense!: Quality Control via Two-Step Reason Selection for Annotating Local Acceptability and Related Attributes in News Editorials",
-    author = "Yang, Wonsuk and Yoon, Seungwon and Carpenter, Ada and Park, Jong C.",
-    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and 9th International Joint Conference on Natural Language Processing",
-    year = "2019"
+    author = "Yang, Wonsuk and yoon, seungwon and Carpenter, Ada and Park, Jong",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/D19-1293",
+    pages = "2947--2956",
 }
 ```

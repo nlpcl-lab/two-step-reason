@@ -179,8 +179,8 @@ def post_signup():
 
 
 @login_required
-def upload_page(doc_type):
-    return render_template('upload.html'.format(doc_type), g=g)
+def upload_page():
+    return render_template('upload.html', g=g)
 
 
 @login_required
