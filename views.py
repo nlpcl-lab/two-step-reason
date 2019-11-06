@@ -193,7 +193,7 @@ def doc_page(doc_id, doc_type):
     doc_log = DocLog(doc=doc, ip=request.remote_addr)
     doc_log.save()
 
-    return render_template('doc.html'.format(doc_type), doc=doc, g=g, ENCRYPTION_KEY=config.Config.ENCRYPTION_KEY)
+    return render_template('doc.html'.format(doc_type), doc=doc, g=g)
 
 
 @login_required

@@ -4,9 +4,9 @@
 <style>
 </style>
 <body>
-{% include 'base/mturk_navbar.html' %}
+{% include 'base/navbar.html' %}
 <div class="container" style="max-width: 1000px; padding-top: 30px;">
-    <h3>Amazon Mechanical Turk (v3)</h3>
+    <h3>Annotation</h3>
     <form style="margin-top: 25px; margin-bottom: 30px;">
         <div class="form-group row">
             <label for="turker_id" class="col-sm-2 col-form-label">Turker ID</label>
@@ -34,12 +34,13 @@
 {% include 'base/script.html' %}
 
 <script type='text/template' id='history-template'>
-    <div>[<%date%>] <%text%> <a href="/mturk/doc/<%doc_id%>/v3">(edit)</a> <a href="#" onClick="delete_key('<%key%>')">(delete)</a>
+    <div>[<%date%>] <%text%> <a href="/doc/<%doc_id%>/v1">(edit)</a> <a href="#"
+                                                                        onClick="delete_key('<%key%>')">(delete)</a>
     </div>
 </script>
 
 <script>
-  var doc_type = 'mturk_v3';
+  var doc_type = 'v1';
 
   function delete_key(key) {
     localStorage.removeItem(key);
@@ -116,7 +117,7 @@
     }).done(function (data) {
       var doc = JSON.parse(data);
       localStorage.setItem(doc_type + '_' + doc.doc_id, data);
-      location.assign('/mturk/doc/' + doc.doc_id + '/v3');
+      location.assign('/doc/' + doc.doc_id + '/v1');
     }).fail(function () {
       $(this).show();
       swal({
