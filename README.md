@@ -16,6 +16,9 @@ The annotation guideline, acquired data, and code to reproduce the experimental 
     
 2. Install python requirements: `pip install -r requirements.txt`
 
+## Usage
+
+1. Run the web-based annotation tool: `python app.py`
 
 ## Citation
 When you use this tool, please cite our paper:
