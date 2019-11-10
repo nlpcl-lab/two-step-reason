@@ -20,6 +20,9 @@ The annotation guideline, acquired data, and code to reproduce the experimental 
 
 1. Run the web-based annotation tool: `python app.py`
 
+## Contact
+If you have an issue using the tool, please contact Wonsuk Yang, 'derrick0511@nlp.kaist.ac.kr'.
+
 ## Citation
 Please cite our paper:
 
