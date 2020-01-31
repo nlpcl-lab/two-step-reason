@@ -2,9 +2,6 @@
 
 This is the code and data to recreate the experiment of our paper ["Nonsense!: Quality Control via Two-Step Reason Selection for Annotating Local Acceptability and Related Attributes in News Editorials"](https://www.aclweb.org/anthology/D19-1293/) (EMNLP-IJCNLP 2019) 
 
-The annotation tool that we used for testing the quality control method via two-step reason selection. 
-The annotation guideline, acquired data, and code to reproduce the experimental results.
-
 ## Pre-requisites
 
 1. Install and run [Mongodb](https://www.mongodb.com/).
